@@ -22,12 +22,13 @@ def familiahtml(request):
     familiar_1.save()
     familiar_2.save()
     familiar_3.save()
-    lista=[familiar_1, familiar_2, familiar_3]
-    diccionario={'lista':lista}
+    familiar_01={'nombre':familiar_1.nombre, 'apellido':familiar_1.apellido, 'fecha_nacimiento':familiar_1.fecha_nacimiento}
+    familiar_02={'nombre':familiar_2.nombre, 'apellido':familiar_2.apellido, 'fecha_nacimiento':familiar_2.fecha_nacimiento}
+    familiar_03={'nombre':familiar_3.nombre, 'apellido':familiar_3.apellido, 'fecha_nacimiento':familiar_3.fecha_nacimiento}
     #cargo template
     plantilla=loader.get_template('template.html')
-    #renderizo contexto (que es un familiar)
-    documento=plantilla.render(diccionario)
+    #renderizo contexto (que es un diccionario)
+    documento=plantilla.render(familiar_02)
     return HttpResponse(documento)
 
 
