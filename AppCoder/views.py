@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Familiares
+from .models import *
 from django.http import HttpResponse
 from django.template import loader
 
@@ -31,5 +31,26 @@ def familiar_3_hmtl(request):
     documento=plantilla.render(familiar_03)
     return HttpResponse(documento)
 
+def curso(request):
+    curso=Curso(nombre='AWS', comision=3)
+    curso_2=Curso(nombre='Lengua', comision=4)
+    curso_3=Curso(nombre='Python', comision=6)
+    curso.save()
+    curso_2.save()
+    curso_3.save()
 
+def inicio(request):
+    return render(request, 'AppCoder/inicio.html')
+
+def cursos(request):
+    return render(request, 'AppCoder/cursos.html')
+
+def estudiantes(request):
+    return render(request, 'AppCoder/estudiantes.html')
+
+def profesores(request):
+    return render(request, 'AppCoder/profesores.html')
+
+def entregables(request):
+    return render(request, 'AppCoder/entregables.html')
 
