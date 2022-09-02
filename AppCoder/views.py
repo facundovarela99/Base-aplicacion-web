@@ -54,3 +54,16 @@ def profesores(request):
 def entregables(request):
     return render(request, 'AppCoder/entregables.html')
 
+def estudiantecito(request):
+    estudiantecito=Estudiante(nombre='CECINIO', apellido='Gonzalez')
+    return render(request, 'AppCoder/estudiantecito.html')
+
+def estudiantecin(request):
+    estudiantecin=Estudiante(nombre='Roma', apellido='Benitez', email='roma@roma.com')
+    estudiantecin.save()
+    estudiantecin_0={'nombre':estudiantecin.nombre, 'apellido':estudiantecin.apellido, 'email':estudiantecin.email}
+    plantilla=loader.get_template('template_2.html')
+    documento=plantilla.render(estudiantecin_0)
+    return HttpResponse(documento)
+
+
