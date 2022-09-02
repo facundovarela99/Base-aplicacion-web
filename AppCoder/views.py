@@ -66,4 +66,15 @@ def estudiantecin(request):
     documento=plantilla.render(estudiantecin_0)
     return HttpResponse(documento)
 
+def cursoFormulario(request):
+    if request.method=='POST':
+        nombre=request.POST['nombre']
+        comision=request.POST['comision']
+        curso=Curso(nombre=nombre, comision=comision)
+        curso.save()
+        return render(request, 'AppCoder/inicio.html')
+
+
+
+    return render(request, 'AppCoder/cursoFormulario.html')
 
