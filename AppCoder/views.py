@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import CursoForm
+from .forms import CursoForm, ProfeForm
 from .models import *
 from django.http import HttpResponse
 from django.template import loader
@@ -59,13 +59,13 @@ def estudiantecito(request):
     estudiantecito=Estudiante(nombre='CECINIO', apellido='Gonzalez')
     return render(request, 'AppCoder/estudiantecito.html')
 
-def estudiantecin(request):
+"""def estudiantecin(request):
     estudiantecin=Estudiante(nombre='Roma', apellido='Benitez', email='roma@roma.com')
     estudiantecin.save()
     estudiantecin_0={'nombre':estudiantecin.nombre, 'apellido':estudiantecin.apellido, 'email':estudiantecin.email}
     plantilla=loader.get_template('template_2.html')
     documento=plantilla.render(estudiantecin_0)
-    return HttpResponse(documento)
+    return HttpResponse(documento)"""
 
 # def cursoFormulario(request):
 #     if request.method=='POST':
@@ -81,9 +81,46 @@ def estudiantecin(request):
 
 def cursoFormulario(request):
     if request.method=='POST':
-        pass
+        form=CursoForm(request.POST)
+        print('-------------------------------')
+        print(form)
+        print('-------------------------------')
+        if form.is_valid():
+            informacion=form.cleaned_data
+            print(informacion)
+            nombre=informacion['nombre']
+            comision=informacion['comision']
+            curso=Curso(nombre=nombre, comision=comision)
+            curso.save()
+            return render (request, 'AppCoder/inicio.html')
+
     else:
         formulario=CursoForm()
         return render (request, 'AppCoder/cursoFormulario.html', {'formulario':formulario})
+
+def profeFormulario(request):
+    if request.method=='POST':
+        form=ProfeForm(request.POST)
+        if form.is_valid():
+            info=form.cleaned_data
+            nombre=info['nombre']
+            apellido=info['apellido'] 
+            email=info['email']
+            profe=Profesor(nombre=nombre, apellido=apellido, email=email)
+            profe.save()
+            return render (request, 'AppCoder/inicio.html', {"mensaje":"Profesor creado"})
+    else:
+        form=ProfeForm()
+    return render (request, 'AppCoder/profeForm.html', {'formulario':form})
+
+def busquedaComision(request):
+    return render(request, 'AppCoder/busquedaComision.html')
+
+def buscar(request):
+    comision=request.GET['comision']
+    #traeme de la base, TODOS LOS CURSOS QUE TENGAN ESA COMISION
+    cursos=Curso.objects.filter(comision=comision)
+    return render(request, 'AppCoder/resultadosBusqueda.html', {'cursos':cursos})
+
 
 
